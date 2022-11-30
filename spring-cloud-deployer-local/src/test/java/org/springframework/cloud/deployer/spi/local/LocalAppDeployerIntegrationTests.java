@@ -102,7 +102,7 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 		if (LocalDeployerUtils.isWindows()) {
 			// tweak random dir name on win to be shorter
 			String uuid = UUID.randomUUID().toString();
-			long l = ByteBuffer.wrap(uuid.toString().getBytes()).getLong();
+			long l = ByteBuffer.wrap(uuid.getBytes()).getLong();
 			return testName + Long.toString(l, Character.MAX_RADIX);
 		}
 		else {
@@ -404,12 +404,8 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 
 		String deploymentId = appDeployer().deploy(request);
 
-		await().atMost(Duration.ofSeconds(30)).until(() -> {
-			return appDeployer().status(deploymentId).getState() == DeploymentState.deploying;
-		});
-		await().during(Duration.ofSeconds(10)).atMost(Duration.ofSeconds(12)).until(() -> {
-			return appDeployer().status(deploymentId).getState() == DeploymentState.deploying;
-		});
+		await().atMost(Duration.ofSeconds(30)).until(() -> appDeployer().status(deploymentId).getState() == DeploymentState.deploying);
+		await().during(Duration.ofSeconds(10)).atMost(Duration.ofSeconds(12)).until(() -> appDeployer().status(deploymentId).getState() == DeploymentState.deploying);
 
 		log.info("Undeploying {}...", deploymentId);
 
@@ -435,12 +431,8 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 
 		String deploymentId = appDeployer().deploy(request);
 
-		await().atMost(Duration.ofSeconds(30)).until(() -> {
-			return appDeployer().status(deploymentId).getState() == DeploymentState.deploying;
-		});
-		await().atMost(Duration.ofSeconds(12)).until(() -> {
-			return appDeployer().status(deploymentId).getState() == DeploymentState.deployed;
-		});
+		await().atMost(Duration.ofSeconds(30)).until(() -> appDeployer().status(deploymentId).getState() == DeploymentState.deploying);
+		await().atMost(Duration.ofSeconds(12)).until(() -> appDeployer().status(deploymentId).getState() == DeploymentState.deployed);
 
 		log.info("Undeploying {}...", deploymentId);
 
@@ -466,9 +458,7 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 
 		String deploymentId = appDeployer().deploy(request);
 
-		await().during(Duration.ofSeconds(10)).atMost(Duration.ofSeconds(12)).until(() -> {
-			return appDeployer().status(deploymentId).getState() == DeploymentState.failed;
-		});
+		await().during(Duration.ofSeconds(10)).atMost(Duration.ofSeconds(12)).until(() -> appDeployer().status(deploymentId).getState() == DeploymentState.failed);
 
 		log.info("Undeploying {}...", deploymentId);
 
@@ -494,13 +484,9 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 
 		String deploymentId = appDeployer().deploy(request);
 
-		await().atMost(Duration.ofSeconds(30)).until(() -> {
-			return appDeployer().status(deploymentId).getState() == DeploymentState.deployed;
-		});
+		await().atMost(Duration.ofSeconds(30)).until(() -> appDeployer().status(deploymentId).getState() == DeploymentState.deployed);
 
-		await().during(Duration.ofSeconds(10)).atMost(Duration.ofSeconds(15)).until(() -> {
-			return appDeployer().status(deploymentId).getState() == DeploymentState.deployed;
-		});
+		await().during(Duration.ofSeconds(10)).atMost(Duration.ofSeconds(15)).until(() -> appDeployer().status(deploymentId).getState() == DeploymentState.deployed);
 
 		log.info("Undeploying {}...", deploymentId);
 
@@ -518,7 +504,7 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 			return new ArrayList<>();
 		}
 		return Files.walk(customWorkDirRoot, 1)
-					.filter(path -> Files.isDirectory(path))
+					.filter(Files::isDirectory)
 					.filter(path -> !path.getFileName().toString().startsWith("."))
 					.collect(Collectors.toList());
 	}
@@ -528,7 +514,7 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 		beforeDirs.add(customWorkDirRoot);
 		if (Files.exists(customWorkDirRoot)) {
 			beforeDirs = Files.walk(customWorkDirRoot, 1)
-					.filter(path -> Files.isDirectory(path))
+					.filter(Files::isDirectory)
 					.collect(Collectors.toList());
 		}
 		return beforeDirs;

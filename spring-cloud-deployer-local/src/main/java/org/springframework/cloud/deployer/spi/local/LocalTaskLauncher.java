@@ -255,7 +255,7 @@ public class LocalTaskLauncher extends AbstractLocalDeployerSupport implements T
 		return workingDirectory;
 	}
 
-	private static class TaskInstance implements Instance {
+	private static final class TaskInstance implements Instance {
 
 		private Process process;
 
