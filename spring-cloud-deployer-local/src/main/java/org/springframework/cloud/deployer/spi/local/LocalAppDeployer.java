@@ -112,7 +112,7 @@ public class LocalAppDeployer extends AbstractLocalDeployerSupport implements Ap
 	private static synchronized int getLocalProcessPid(Process p) {
 		int pid = 0;
 		try {
-			if (p.getClass().getName().equals("java.lang.UNIXProcess")) {
+			if ("java.lang.UNIXProcess".equals(p.getClass().getName())) {
 				Field f = p.getClass().getDeclaredField("pid");
 				f.setAccessible(true);
 				pid = f.getInt(p);
@@ -357,7 +357,7 @@ public class LocalAppDeployer extends AbstractLocalDeployerSupport implements Ap
 		return String.format("%s-%s", deploymentId, appIndex);
 	}
 
-	private static class AppInstance implements Instance, AppInstanceStatus {
+	private static final class AppInstance implements Instance, AppInstanceStatus {
 
 		private final String deploymentId;
 
@@ -370,9 +370,9 @@ public class LocalAppDeployer extends AbstractLocalDeployerSupport implements Ap
 		private File workFile;
 		private File stdout;
 		private File stderr;
-		private int port;
-		private HttpProbeExecutor startupProbeExecutor;
-		private HttpProbeExecutor healthProbeExecutor;
+		private final int port;
+		private final HttpProbeExecutor startupProbeExecutor;
+		private final HttpProbeExecutor healthProbeExecutor;
 		private boolean startupProbeOk;
 
 		private AppInstance(String deploymentId, int instanceNumber, int port, URL baseUrl, HttpProbe startupProbe,
