@@ -263,10 +263,7 @@ public class LocalDeployerProperties {
 			if (high != other.high) {
 				return false;
 			}
-			if (low != other.low) {
-				return false;
-			}
-			return true;
+			return low == other.low;
 		}
 	}
 
@@ -355,7 +352,9 @@ public class LocalDeployerProperties {
 			if (network == null) {
 				return other.network == null;
 			}
-			else return network.equals(other.network);
+			else {
+				return network.equals(other.network);
+			}
 		}
 	}
 
