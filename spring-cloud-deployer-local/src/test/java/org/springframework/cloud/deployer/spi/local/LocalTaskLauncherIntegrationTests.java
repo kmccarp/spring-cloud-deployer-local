@@ -104,7 +104,7 @@ public class LocalTaskLauncherIntegrationTests extends AbstractTaskLauncherInteg
 		if (LocalDeployerUtils.isWindows()) {
 			// tweak random dir name on win to be shorter
 			String uuid = UUID.randomUUID().toString();
-			long l = ByteBuffer.wrap(uuid.toString().getBytes()).getLong();
+			long l = ByteBuffer.wrap(uuid.getBytes()).getLong();
 			return testName + Long.toString(l, Character.MAX_RADIX);
 		}
 		else {
@@ -178,7 +178,7 @@ public class LocalTaskLauncherIntegrationTests extends AbstractTaskLauncherInteg
 		beforeDirs.add(customWorkDirRoot);
 		if (Files.exists(customWorkDirRoot)) {
 			beforeDirs = Files.walk(customWorkDirRoot, 1)
-					.filter(path -> Files.isDirectory(path))
+					.filter(Files::isDirectory)
 					.collect(Collectors.toList());
 		}
 
@@ -186,7 +186,7 @@ public class LocalTaskLauncherIntegrationTests extends AbstractTaskLauncherInteg
 		assertThat(output).contains("Logs will be inherited.");
 
 		List<Path> afterDirs = Files.walk(customWorkDirRoot, 1)
-				.filter(path -> Files.isDirectory(path))
+				.filter(Files::isDirectory)
 				.collect(Collectors.toList());
 		assertThat(afterDirs).as("Additional working directory not created").hasSize(beforeDirs.size() + 1);
 

@@ -143,7 +143,7 @@ public abstract class AbstractLocalDeployerSupport {
 	 *
 	 * @return the local deployer properties
 	 */
-	final protected LocalDeployerProperties getLocalDeployerProperties() {
+	protected final LocalDeployerProperties getLocalDeployerProperties() {
 		return localDeployerProperties;
 	}
 
