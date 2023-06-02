@@ -28,34 +28,34 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class RandomPortRangeContextTests {
 
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-			.withConfiguration(AutoConfigurations.of(LocalDeployerAutoConfiguration.class));
+.withConfiguration(AutoConfigurations.of(LocalDeployerAutoConfiguration.class));
 
 	@Test
 	public void defaultProtRangeProperties() {
 		this.contextRunner
-				.withUserConfiguration(LocalDeployerAutoConfiguration.class)
-				.run((context) -> {
-					assertThat(context).hasSingleBean(LocalDeployerProperties.class);
-					assertThat(context).hasSingleBean(LocalDeployerAutoConfiguration.class);
-					assertThat(context).getBean(LocalDeployerProperties.class)
-							.hasFieldOrPropertyWithValue("portRange.low", 20000);
-					assertThat(context).getBean(LocalDeployerProperties.class)
-							.hasFieldOrPropertyWithValue("portRange.high", 61000);
-				});
+	.withUserConfiguration(LocalDeployerAutoConfiguration.class)
+	.run((context) -> {
+		assertThat(context).hasSingleBean(LocalDeployerProperties.class);
+		assertThat(context).hasSingleBean(LocalDeployerAutoConfiguration.class);
+		assertThat(context).getBean(LocalDeployerProperties.class)
+	.hasFieldOrPropertyWithValue("portRange.low", 20000);
+		assertThat(context).getBean(LocalDeployerProperties.class)
+	.hasFieldOrPropertyWithValue("portRange.high", 61000);
+	});
 	}
 
 	@Test
 	public void presetProtRangeProperties() {
 		this.contextRunner
-				.withUserConfiguration(LocalDeployerAutoConfiguration.class)
-				.withPropertyValues("spring.cloud.deployer.local.portRange.low=20001", "spring.cloud.deployer.local.portRange.high=20003")
-				.run((context) -> {
-					assertThat(context).hasSingleBean(LocalDeployerProperties.class);
-					assertThat(context).hasSingleBean(LocalDeployerAutoConfiguration.class);
-					assertThat(context).getBean(LocalDeployerProperties.class)
-							.hasFieldOrPropertyWithValue("portRange.low", 20001);
-					assertThat(context).getBean(LocalDeployerProperties.class)
-							.hasFieldOrPropertyWithValue("portRange.high", 20003);
-				});
+	.withUserConfiguration(LocalDeployerAutoConfiguration.class)
+	.withPropertyValues("spring.cloud.deployer.local.portRange.low=20001", "spring.cloud.deployer.local.portRange.high=20003")
+	.run((context) -> {
+		assertThat(context).hasSingleBean(LocalDeployerProperties.class);
+		assertThat(context).hasSingleBean(LocalDeployerAutoConfiguration.class);
+		assertThat(context).getBean(LocalDeployerProperties.class)
+	.hasFieldOrPropertyWithValue("portRange.low", 20001);
+		assertThat(context).getBean(LocalDeployerProperties.class)
+	.hasFieldOrPropertyWithValue("portRange.high", 20003);
+	});
 	}
 }

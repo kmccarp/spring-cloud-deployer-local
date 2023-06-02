@@ -73,8 +73,7 @@ import static org.awaitility.Awaitility.await;
  * @author Ben Blinebury
  *
  */
-@SpringBootTest(classes = {Config.class, AbstractIntegrationTests.Config.class}, value = {
-		"maven.remoteRepositories.springRepo.url=https://repo.spring.io/snapshot" })
+@SpringBootTest(classes = {Config.class, AbstractIntegrationTests.Config.class}, value = {"maven.remoteRepositories.springRepo.url=https://repo.spring.io/snapshot"})
 @ExtendWith(OutputCaptureExtension.class)
 public class LocalTaskLauncherIntegrationTests extends AbstractTaskLauncherIntegrationJUnit5Tests {
 	private static final String SYMBOLIC_LINK = "symbolic_link.txt";
@@ -113,7 +112,7 @@ public class LocalTaskLauncherIntegrationTests extends AbstractTaskLauncherInteg
 	}
 
 	@Test
-	public void testPassingServerPortViaCommandLineArgs(CapturedOutput output){
+	public void testPassingServerPortViaCommandLineArgs(CapturedOutput output) {
 		Map<String, String> appProperties = new HashMap<>();
 		appProperties.put("killDelay", "0");
 		appProperties.put("exitCode", "0");
@@ -178,16 +177,16 @@ public class LocalTaskLauncherIntegrationTests extends AbstractTaskLauncherInteg
 		beforeDirs.add(customWorkDirRoot);
 		if (Files.exists(customWorkDirRoot)) {
 			beforeDirs = Files.walk(customWorkDirRoot, 1)
-					.filter(path -> Files.isDirectory(path))
-					.collect(Collectors.toList());
+		.filter(path -> Files.isDirectory(path))
+		.collect(Collectors.toList());
 		}
 
 		basicLaunchAndValidation(definition, deploymentProperties);
 		assertThat(output).contains("Logs will be inherited.");
 
 		List<Path> afterDirs = Files.walk(customWorkDirRoot, 1)
-				.filter(path -> Files.isDirectory(path))
-				.collect(Collectors.toList());
+	.filter(path -> Files.isDirectory(path))
+	.collect(Collectors.toList());
 		assertThat(afterDirs).as("Additional working directory not created").hasSize(beforeDirs.size() + 1);
 
 		// clean up if test passed
@@ -208,10 +207,10 @@ public class LocalTaskLauncherIntegrationTests extends AbstractTaskLauncherInteg
 		Timeout timeout = deploymentTimeout();
 
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-                .atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-                .untilAsserted(() -> {
-			assertThat(taskLauncher().status(launchId1).getState()).isEqualTo(LaunchState.complete);
-        });
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(taskLauncher().status(launchId1).getState()).isEqualTo(LaunchState.complete);
+	});
 
 		String logContent = taskLauncher().getLog(launchId1);
 		assertThat(logContent).contains("Starting DeployerIntegrationTestApplication");
@@ -231,10 +230,10 @@ public class LocalTaskLauncherIntegrationTests extends AbstractTaskLauncherInteg
 		Timeout timeout = deploymentTimeout();
 
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-                .atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-                .untilAsserted(() -> {
-			assertThat(taskLauncher().status(launchId1).getState()).isEqualTo(LaunchState.complete);
-        });
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(taskLauncher().status(launchId1).getState()).isEqualTo(LaunchState.complete);
+	});
 
 		String launchId2 = taskLauncher().launch(request);
 
@@ -243,16 +242,16 @@ public class LocalTaskLauncherIntegrationTests extends AbstractTaskLauncherInteg
 		timeout = deploymentTimeout();
 
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-                .atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-                .untilAsserted(() -> {
-			assertThat(taskLauncher().status(launchId2).getState()).isEqualTo(LaunchState.complete);
-        });
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(taskLauncher().status(launchId2).getState()).isEqualTo(LaunchState.complete);
+	});
 
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-                .atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-                .untilAsserted(() -> {
-			assertThat(taskLauncher().status(launchId1).getState()).isEqualTo(LaunchState.unknown);
-        });
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(taskLauncher().status(launchId1).getState()).isEqualTo(LaunchState.unknown);
+	});
 
 		String launchId3 = taskLauncher().launch(request);
 
@@ -262,22 +261,22 @@ public class LocalTaskLauncherIntegrationTests extends AbstractTaskLauncherInteg
 		timeout = deploymentTimeout();
 
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-                .atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-                .untilAsserted(() -> {
-			assertThat(taskLauncher().status(launchId3).getState()).isEqualTo(LaunchState.complete);
-        });
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(taskLauncher().status(launchId3).getState()).isEqualTo(LaunchState.complete);
+	});
 
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-                .atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-                .untilAsserted(() -> {
-			assertThat(taskLauncher().status(launchId1).getState()).isEqualTo(LaunchState.unknown);
-        });
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(taskLauncher().status(launchId1).getState()).isEqualTo(LaunchState.unknown);
+	});
 
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-                .atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-                .untilAsserted(() -> {
-			assertThat(taskLauncher().status(launchId2).getState()).isEqualTo(LaunchState.unknown);
-        });
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(taskLauncher().status(launchId2).getState()).isEqualTo(LaunchState.unknown);
+	});
 
 		taskLauncher().destroy(definition.getName());
 	}
@@ -295,24 +294,24 @@ public class LocalTaskLauncherIntegrationTests extends AbstractTaskLauncherInteg
 		String launchId = this.taskLauncher().launch(request);
 		Timeout timeout = this.deploymentTimeout();
 		await().pollInterval(Duration.ofMillis(1))
-                .atMost(Duration.ofSeconds(30))
-                .untilAsserted(() -> {
-			assertThat(taskLauncher.getRunningTaskExecutionCount()).isEqualTo(1);
-        });
+	.atMost(Duration.ofSeconds(30))
+	.untilAsserted(() -> {
+		assertThat(taskLauncher.getRunningTaskExecutionCount()).isEqualTo(1);
+	});
 
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-                .atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-                .untilAsserted(() -> {
-			assertThat(taskLauncher().status(launchId).getState()).isEqualTo(LaunchState.complete);
-        });
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(taskLauncher().status(launchId).getState()).isEqualTo(LaunchState.complete);
+	});
 
 		this.taskLauncher().destroy(definition.getName());
 
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-                .atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-                .untilAsserted(() -> {
-			assertThat(taskLauncher.getRunningTaskExecutionCount()).isEqualTo(0);
-        });
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(taskLauncher.getRunningTaskExecutionCount()).isEqualTo(0);
+	});
 	}
 
 	@Configuration

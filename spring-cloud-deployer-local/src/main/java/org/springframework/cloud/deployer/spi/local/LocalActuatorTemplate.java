@@ -29,13 +29,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class LocalActuatorTemplate extends AbstractActuatorTemplate {
 
 	public LocalActuatorTemplate(RestTemplate restTemplate, AppDeployer appDeployer,
-			AppAdmin appAdmin) {
+AppAdmin appAdmin) {
 		super(restTemplate, appDeployer, appAdmin);
 	}
 
 	@Override
 	protected String actuatorUrlForInstance(AppInstanceStatus appInstanceStatus) {
 		return UriComponentsBuilder.fromHttpUrl(appInstanceStatus.getAttributes().get("url"))
-				.path("/actuator").toUriString();
+	.path("/actuator").toUriString();
 	}
 }

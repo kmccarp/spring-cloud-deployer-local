@@ -59,7 +59,7 @@ public class LocalDeployerAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean(ActuatorOperations.class)
 	ActuatorOperations actuatorOperations(RestTemplate actuatorRestTemplate, AppDeployer appDeployer,
-			LocalDeployerProperties properties) {
+LocalDeployerProperties properties) {
 		return new LocalActuatorTemplate(actuatorRestTemplate, appDeployer, properties.getAppAdmin());
 	}
 }

@@ -85,8 +85,8 @@ public class LocalTaskLauncher extends AbstractLocalDeployerSupport implements T
 
 		if (this.maxConcurrentExecutionsReached()) {
 			throw new IllegalStateException(
-				String.format("Cannot launch task %s. The maximum concurrent task executions is at its limit [%d].",
-					request.getDefinition().getName(), this.getMaximumConcurrentTasks())
+		String.format("Cannot launch task %s. The maximum concurrent task executions is at its limit [%d].",
+	request.getDefinition().getName(), this.getMaximumConcurrentTasks())
 			);
 		}
 
@@ -138,10 +138,11 @@ public class LocalTaskLauncher extends AbstractLocalDeployerSupport implements T
 		for (String oldTaskInstanceId : oldTaskInstanceIds) {
 			TaskInstance oldTaskInstance = running.get(oldTaskInstanceId);
 			if (oldTaskInstance != null && oldTaskInstance.getState() != LaunchState.running
-					&& oldTaskInstance.getState() != LaunchState.launching) {
+		&& oldTaskInstance.getState() != LaunchState.launching) {
 				running.remove(oldTaskInstanceId);
 				oldTaskInstanceIds.remove(oldTaskInstanceId);
-			} else {
+			}
+			else {
 				oldTaskInstanceIds.remove(oldTaskInstanceId);
 			}
 		}
@@ -151,7 +152,7 @@ public class LocalTaskLauncher extends AbstractLocalDeployerSupport implements T
 	private boolean isDynamicPort(AppDeploymentRequest request) {
 		boolean isServerPortKeyonArgs = isServerPortKeyPresentOnArgs(request) != null;
 		return !request.getDefinition().getProperties().containsKey(SERVER_PORT_KEY)
-				&& !isServerPortKeyonArgs;
+	&& !isServerPortKeyonArgs;
 	}
 
 	@Override
@@ -219,7 +220,7 @@ public class LocalTaskLauncher extends AbstractLocalDeployerSupport implements T
 	public int getRunningTaskExecutionCount() {
 		int runningExecutionCount = 0;
 
-		for (TaskInstance taskInstance: running.values()) {
+		for (TaskInstance taskInstance : running.values()) {
 			if (taskInstance.getProcess().isAlive()) {
 				runningExecutionCount++;
 			}
@@ -243,8 +244,8 @@ public class LocalTaskLauncher extends AbstractLocalDeployerSupport implements T
 		LocalDeployerProperties localDeployerPropertiesToUse = bindDeploymentProperties(deploymentProperties);
 
 		Path workingDirectoryRoot = Files.isSymbolicLink(localDeployerPropertiesToUse.getWorkingDirectoriesRoot())
-				? Files.readSymbolicLink(localDeployerPropertiesToUse.getWorkingDirectoriesRoot())
-				: Files.createDirectories(localDeployerPropertiesToUse.getWorkingDirectoriesRoot());
+	? Files.readSymbolicLink(localDeployerPropertiesToUse.getWorkingDirectoriesRoot())
+	: Files.createDirectories(localDeployerPropertiesToUse.getWorkingDirectoriesRoot());
 
 		Path workingDirectory = Files.createDirectories(workingDirectoryRoot.resolve(Long.toString(System.nanoTime())).resolve(taskLaunchId));
 
@@ -275,7 +276,7 @@ public class LocalTaskLauncher extends AbstractLocalDeployerSupport implements T
 			this.baseUrl = new URL("http", Inet4Address.getLocalHost().getHostAddress(), port, "");
 			if (logger.isDebugEnabled()) {
 				logger.debug("Local Task Launcher Commands: " + String.join(",", builder.command())
-						+ ", Environment: " + builder.environment());
+			+ ", Environment: " + builder.environment());
 			}
 		}
 
@@ -340,7 +341,7 @@ public class LocalTaskLauncher extends AbstractLocalDeployerSupport implements T
 		private void start(ProcessBuilder builder) throws IOException {
 			if (logger.isDebugEnabled()) {
 				logger.debug("Local Task Launcher Commands: " + String.join(",", builder.command())
-						+ ", Environment: " + builder.environment());
+			+ ", Environment: " + builder.environment());
 			}
 			this.process = builder.start();
 		}
@@ -352,7 +353,7 @@ public class LocalTaskLauncher extends AbstractLocalDeployerSupport implements T
 			builder.redirectOutput(this.stdout);
 			builder.redirectError(this.stderr);
 			this.process = builder.start();
-			if(deleteOnExit) {
+			if (deleteOnExit) {
 				this.stdout.deleteOnExit();
 				this.stderr.deleteOnExit();
 			}
@@ -361,10 +362,10 @@ public class LocalTaskLauncher extends AbstractLocalDeployerSupport implements T
 		private Map<String, String> getAttributes() {
 			HashMap<String, String> result = new HashMap<>();
 			result.put("working.dir", workDir.toFile().getAbsolutePath());
-			if(this.stdout != null) {
+			if (this.stdout != null) {
 				result.put("stdout", stdout.getAbsolutePath());
 			}
-			if(this.stderr != null) {
+			if (this.stderr != null) {
 				result.put("stderr", stderr.getAbsolutePath());
 			}
 			result.put("url", baseUrl.toString());

@@ -156,7 +156,7 @@ public class LocalAppDeployer extends AbstractLocalDeployerSupport implements Ap
 		List<AppInstance> instances = holder != null ? holder.instances : null;
 		if (instances == null) {
 			throw new IllegalStateException(
-					"Can't find existing instances for deploymentId " + appScaleRequest.getDeploymentId());
+		"Can't find existing instances for deploymentId " + appScaleRequest.getDeploymentId());
 		}
 		AppDeploymentRequest request = holder.request;
 
@@ -260,7 +260,7 @@ public class LocalAppDeployer extends AbstractLocalDeployerSupport implements Ap
 	}
 
 	private AppInstance deployApp(AppDeploymentRequest request, Path workDir, String group, String deploymentId,
-			int index, Map<String, String> deploymentProperties) throws IOException {
+int index, Map<String, String> deploymentProperties) throws IOException {
 
 		LocalDeployerProperties localDeployerPropertiesToUse = bindDeploymentProperties(deploymentProperties);
 
@@ -312,24 +312,24 @@ public class LocalAppDeployer extends AbstractLocalDeployerSupport implements Ap
 		int port = calcServerPort(request, useDynamicPort, appInstanceEnv);
 
 		ProcessBuilder builder = buildProcessBuilder(request, appInstanceEnv, Optional.of(index), deploymentId)
-				.inheritIO();
+	.inheritIO();
 		builder.directory(workDir.toFile());
 
 		URL baseUrl = (StringUtils.hasText(localDeployerPropertiesToUse.getHostname())) ?
-				new URL("http", localDeployerPropertiesToUse.getHostname(), port, "")
-				: getCommandBuilder(request).getBaseUrl(deploymentId, index, port);
+	new URL("http", localDeployerPropertiesToUse.getHostname(), port, "")
+	: getCommandBuilder(request).getBaseUrl(deploymentId, index, port);
 
 		AppInstance instance = new AppInstance(deploymentId, index, port, baseUrl,
-				localDeployerPropertiesToUse.getStartupProbe(), localDeployerPropertiesToUse.getHealthProbe());
+	localDeployerPropertiesToUse.getStartupProbe(), localDeployerPropertiesToUse.getHealthProbe());
 		if (this.shouldInheritLogging(request)) {
 			instance.start(builder, workDir);
 			logger.info("Deploying app with deploymentId {} instance {}.\n   Logs will be inherited.",
-					deploymentId, index);
+		deploymentId, index);
 		}
 		else {
 			instance.start(builder, workDir, getLocalDeployerProperties().isDeleteFilesOnExit());
 			logger.info("Deploying app with deploymentId {} instance {}.\n   Logs will be in {}", deploymentId,
-					index, workDir);
+		index, workDir);
 		}
 		return instance;
 	}
@@ -349,8 +349,8 @@ public class LocalAppDeployer extends AbstractLocalDeployerSupport implements Ap
 	private void validateStatus(String deploymentId, DeploymentState expectedState) {
 		DeploymentState state = status(deploymentId).getState();
 		Assert.state(state == expectedState,
-				String.format("App with deploymentId [%s] with state [%s] doesn't match expected state [%s]",
-						deploymentId, state, expectedState));
+	String.format("App with deploymentId [%s] with state [%s] doesn't match expected state [%s]",
+deploymentId, state, expectedState));
 	}
 
 	private static String toGuid(String deploymentId, int appIndex) {
@@ -376,7 +376,7 @@ public class LocalAppDeployer extends AbstractLocalDeployerSupport implements Ap
 		private boolean startupProbeOk;
 
 		private AppInstance(String deploymentId, int instanceNumber, int port, URL baseUrl, HttpProbe startupProbe,
-				HttpProbe healthProbe) {
+	HttpProbe healthProbe) {
 			this.deploymentId = deploymentId;
 			this.instanceNumber = instanceNumber;
 			this.port = port;
@@ -482,7 +482,7 @@ public class LocalAppDeployer extends AbstractLocalDeployerSupport implements Ap
 		private void start(ProcessBuilder builder, Path workDir) throws IOException {
 			if (logger.isDebugEnabled()) {
 				logger.debug("Local App Deployer Commands: " + String.join(",", builder.command())
-						+ ", Environment: " + builder.environment());
+			+ ", Environment: " + builder.environment());
 			}
 			this.workFile = workDir.toFile();
 			this.attributes.put("working.dir", this.workFile.getAbsolutePath());

@@ -46,7 +46,8 @@ public class LocalDeployerSupportTests {
 	@BeforeEach
 	public void setUp() {
 		localDeployerProperties = new LocalDeployerProperties();
-		localDeployerSupport = new AbstractLocalDeployerSupport(this.localDeployerProperties) {};
+		localDeployerSupport = new AbstractLocalDeployerSupport(this.localDeployerProperties) {
+		};
 	}
 
 	@Test
@@ -55,11 +56,11 @@ public class LocalDeployerSupportTests {
 
 		HashMap<String, String> envVarsToUse = new HashMap<>(appDeploymentRequest.getDefinition().getProperties());
 		Map<String, String> environmentVariables = localDeployerSupport.formatApplicationProperties(appDeploymentRequest,
-				envVarsToUse);
+	envVarsToUse);
 
 		assertThat(environmentVariables).hasSize(1);
 		assertThat(environmentVariables).containsEntry(AbstractLocalDeployerSupport.SPRING_APPLICATION_JSON,
-				"{\"test.foo\":\"foo\",\"test.bar\":\"bar\"}");
+	"{\"test.foo\":\"foo\",\"test.bar\":\"bar\"}");
 	}
 
 	@Test
@@ -73,7 +74,7 @@ public class LocalDeployerSupportTests {
 		AppDefinition definition = new AppDefinition("randomApp", applicationProperties);
 
 		AppDeploymentRequest appDeploymentRequest = new AppDeploymentRequest(definition, testResource(),
-				deploymentPropertites, commandLineArgs);
+	deploymentPropertites, commandLineArgs);
 
 		int portToUse = localDeployerSupport.calcServerPort(appDeploymentRequest, false, new HashMap<>());
 		assertThat(portToUse).isEqualTo(9292);
@@ -81,7 +82,7 @@ public class LocalDeployerSupportTests {
 		// test adding to command line args, which has higher precedence than application properties
 		commandLineArgs.add(LocalTaskLauncher.SERVER_PORT_KEY_COMMAND_LINE_ARG  + 9191);
 		appDeploymentRequest = new AppDeploymentRequest(definition, testResource(),
-				deploymentPropertites, commandLineArgs);
+	deploymentPropertites, commandLineArgs);
 
 		portToUse = localDeployerSupport.calcServerPort(appDeploymentRequest, false, new HashMap<>());
 		assertThat(portToUse).isEqualTo(9191);
@@ -96,7 +97,8 @@ public class LocalDeployerSupportTests {
 	public void testShutdownPropertyConfiguresRequestFactory() throws Exception {
 		LocalDeployerProperties properties = new LocalDeployerProperties();
 		properties.setShutdownTimeout(1);
-		AbstractLocalDeployerSupport abstractLocalDeployerSupport = new AbstractLocalDeployerSupport(properties) {};
+		AbstractLocalDeployerSupport abstractLocalDeployerSupport = new AbstractLocalDeployerSupport(properties) {
+		};
 		Object restTemplate = ReflectionTestUtils.getField(abstractLocalDeployerSupport, "restTemplate");
 		Object requestFactory = ReflectionTestUtils.getField(restTemplate, "requestFactory");
 		Object connectTimeout = ReflectionTestUtils.getField(requestFactory, "connectTimeout");
@@ -109,10 +111,11 @@ public class LocalDeployerSupportTests {
 	public void testShutdownPropertyNotConfiguresRequestFactory() throws Exception {
 		LocalDeployerProperties properties = new LocalDeployerProperties();
 		properties.setShutdownTimeout(-1);
-		AbstractLocalDeployerSupport abstractLocalDeployerSupport = new AbstractLocalDeployerSupport(properties) {};
+		AbstractLocalDeployerSupport abstractLocalDeployerSupport = new AbstractLocalDeployerSupport(properties) {
+		};
 		Object restTemplate = ReflectionTestUtils.getField(abstractLocalDeployerSupport, "restTemplate");
 		Object requestFactory = ReflectionTestUtils.getField(restTemplate, "requestFactory");
-		Object connectTimeout =  ReflectionTestUtils.getField(requestFactory,"connectTimeout");
+		Object connectTimeout = ReflectionTestUtils.getField(requestFactory, "connectTimeout");
 		Object readTimeout = ReflectionTestUtils.getField(requestFactory, "readTimeout");
 		assertThat(connectTimeout).isEqualTo(-1);
 		assertThat(readTimeout).isEqualTo(-1);

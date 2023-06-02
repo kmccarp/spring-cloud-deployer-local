@@ -47,10 +47,10 @@ public class DockerCommandBuilderTests {
 		AppDeploymentRequest request = new AppDeploymentRequest(appDefinition, resource, deploymentProperties);
 
 		ProcessBuilder builder = new DockerCommandBuilder(null)
-				.buildExecutionCommand(request, new HashMap<>(), "deployerId", Optional.of(1),
-						new LocalDeployerProperties(), Optional.empty());
+	.buildExecutionCommand(request, new HashMap<>(), "deployerId", Optional.of(1),
+new LocalDeployerProperties(), Optional.empty());
 		assertThat(builder.command()).containsAnyElementsOf(Arrays.asList("docker", "run", "--rm", "--name=gogo-1",
-				"foo/bar", "deployerId=deployerId"));
+	"foo/bar", "deployerId=deployerId"));
 	}
 
 	@Test
@@ -60,10 +60,10 @@ public class DockerCommandBuilderTests {
 		Map<String, String> deploymentProperties = Collections.singletonMap(DockerCommandBuilder.DOCKER_CONTAINER_NAME_KEY, "gogo");
 		AppDeploymentRequest request = new AppDeploymentRequest(appDefinition, resource, deploymentProperties);
 		ProcessBuilder builder = new DockerCommandBuilder("scdf_default")
-				.buildExecutionCommand(request, new HashMap<>(), "deployerId", Optional.of(1),
-						new LocalDeployerProperties(), Optional.empty());
+	.buildExecutionCommand(request, new HashMap<>(), "deployerId", Optional.of(1),
+new LocalDeployerProperties(), Optional.empty());
 		assertThat(builder.command()).containsAnyElementsOf(Arrays.asList("docker", "run", "--network", "scdf_default",
-				"--rm", "--name=gogo-1", "foo/bar"));
+	"--rm", "--name=gogo-1", "foo/bar"));
 	}
 
 	@Test
@@ -77,10 +77,10 @@ public class DockerCommandBuilderTests {
 		localDeployerProperties.getDocker().setDeleteContainerOnExit(false);
 
 		ProcessBuilder builder = new DockerCommandBuilder("scdf_default")
-				.buildExecutionCommand(request, new HashMap<>(), "deployerId", Optional.of(1),
-						localDeployerProperties, Optional.empty());
+	.buildExecutionCommand(request, new HashMap<>(), "deployerId", Optional.of(1),
+localDeployerProperties, Optional.empty());
 		assertThat(builder.command()).containsAnyElementsOf(Arrays.asList("docker", "run", "--network", "scdf_default",
-				"--name=gogo-1", "foo/bar"));
+	"--name=gogo-1", "foo/bar"));
 		assertThat(builder.command()).doesNotContain("--rm");
 	}
 
@@ -95,10 +95,10 @@ public class DockerCommandBuilderTests {
 		localDeployerProperties.getDocker().setDeleteContainerOnExit(false);
 
 		ProcessBuilder builder = new DockerCommandBuilder("scdf_default")
-				.buildExecutionCommand(request, new HashMap<>(), "deployerId", Optional.of(1),
-						localDeployerProperties, Optional.empty());
+	.buildExecutionCommand(request, new HashMap<>(), "deployerId", Optional.of(1),
+localDeployerProperties, Optional.empty());
 		assertThat(builder.command()).containsAnyElementsOf(Arrays.asList("docker", "run", "--network", "scdf_default",
-				"--name=gogo-1", "foo/bar"));
+	"--name=gogo-1", "foo/bar"));
 		assertThat(builder.command()).doesNotContain("--rm");
 	}
 
@@ -120,7 +120,7 @@ public class DockerCommandBuilderTests {
 	}
 
 	@Test
-	public void  testContainerPortMappings(){
+	public void  testContainerPortMappings() {
 		AppDefinition appDefinition = new AppDefinition("foo", null);
 		Resource resource = new DockerResource("foo/bar");
 		Map<String, String> deploymentProperties = Collections.emptyMap();
@@ -133,15 +133,15 @@ public class DockerCommandBuilderTests {
 		localDeployerProperties.getDocker().setPortMappings(goodMapping1 + "," + goodMapping2 + "," + incompleteMapping);
 
 		ProcessBuilder builder = new DockerCommandBuilder("scdf_default")
-				.buildExecutionCommand(request, new HashMap<>(), "deployerId", Optional.of(1),
-						localDeployerProperties, Optional.empty());
+	.buildExecutionCommand(request, new HashMap<>(), "deployerId", Optional.of(1),
+localDeployerProperties, Optional.empty());
 
 		assertThat(builder.command()).contains(goodMapping1, goodMapping2);
 		assertThat(builder.command()).doesNotContain(incompleteMapping);
 	}
 
 	@Test
-	public void  testContainerVolumeMount(){
+	public void  testContainerVolumeMount() {
 		AppDefinition appDefinition = new AppDefinition("foo", null);
 		Resource resource = new DockerResource("foo/bar");
 		Map<String, String> deploymentProperties = Collections.emptyMap();
@@ -154,8 +154,8 @@ public class DockerCommandBuilderTests {
 		localDeployerProperties.getDocker().setVolumeMounts(goodMapping1 + "," + goodMapping2 + "," + incompleteMapping);
 
 		ProcessBuilder builder = new DockerCommandBuilder("scdf_default")
-				.buildExecutionCommand(request, new HashMap<>(), "deployerId", Optional.of(1),
-						localDeployerProperties, Optional.empty());
+	.buildExecutionCommand(request, new HashMap<>(), "deployerId", Optional.of(1),
+localDeployerProperties, Optional.empty());
 
 		assertThat(builder.command()).contains(goodMapping1, goodMapping2);
 		assertThat(builder.command()).doesNotContain(incompleteMapping);

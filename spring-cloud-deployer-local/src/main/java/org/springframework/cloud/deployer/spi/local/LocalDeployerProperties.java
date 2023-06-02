@@ -90,11 +90,11 @@ public class LocalDeployerProperties {
 	private static final String JAVA_COMMAND = LocalDeployerUtils.isWindows() ? "java.exe" : "java";
 
 	// looks like some windows systems uses 'Path' but process builder give it as 'PATH'
-	private static final String[] ENV_VARS_TO_INHERIT_DEFAULTS_WIN = { "TMP", "TEMP", "PATH", "Path",
-			AbstractLocalDeployerSupport.SPRING_APPLICATION_JSON };
+	private static final String[] ENV_VARS_TO_INHERIT_DEFAULTS_WIN = {"TMP", "TEMP", "PATH", "Path",
+AbstractLocalDeployerSupport.SPRING_APPLICATION_JSON};
 
-	private static final String[] ENV_VARS_TO_INHERIT_DEFAULTS_OTHER = { "TMP", "LANG", "LANGUAGE", "LC_.*", "PATH",
-			AbstractLocalDeployerSupport.SPRING_APPLICATION_JSON };
+	private static final String[] ENV_VARS_TO_INHERIT_DEFAULTS_OTHER = {"TMP", "LANG", "LANGUAGE", "LC_.*", "PATH",
+AbstractLocalDeployerSupport.SPRING_APPLICATION_JSON};
 
 	/**
 	 * Directory in which all created processes will run and create log files.
@@ -111,7 +111,7 @@ public class LocalDeployerProperties {
 	 * passed to launched applications.
 	 */
 	private String[] envVarsToInherit = LocalDeployerUtils.isWindows() ? ENV_VARS_TO_INHERIT_DEFAULTS_WIN
-			: ENV_VARS_TO_INHERIT_DEFAULTS_OTHER;
+: ENV_VARS_TO_INHERIT_DEFAULTS_OTHER;
 
 	/**
 	 * The command to run java.
@@ -162,7 +162,8 @@ public class LocalDeployerProperties {
 	 */
 	private String debugAddress;
 
-	public enum DebugSuspendType {y, n};
+	public enum DebugSuspendType {y, n
+	}
 	/**
 	 * Suspend defines whether the JVM should suspend and wait for a debugger to attach or not
 	 */
@@ -202,7 +203,7 @@ public class LocalDeployerProperties {
 		this.shutdownTimeout = from.getShutdownTimeout();
 		this.useSpringApplicationJson = from.isUseSpringApplicationJson();
 		this.workingDirectoriesRoot = Paths.get(from.getWorkingDirectoriesRoot().toUri());
-		this.hostname =from.getHostname();
+		this.hostname = from.getHostname();
 		this.appAdmin = from.appAdmin;
 	}
 
@@ -385,7 +386,7 @@ public class LocalDeployerProperties {
 
 	public void setDebugPort(Integer debugPort) {
 		logger.warn("The debugPort is deprecated! It supports only pre Java 9 environments. " +
-				"Please use the debugAddress property instead!");
+	"Please use the debugAddress property instead!");
 		this.debugPort = debugPort;
 	}
 
@@ -525,13 +526,13 @@ public class LocalDeployerProperties {
 		if (javaHome != null) {
 			File javaExecutable = new File(javaHome, "bin" + File.separator + javaExecutablePath);
 			Assert.isTrue(javaExecutable.canExecute(),
-					"Java executable'" + javaExecutable + "'discovered via 'java.home' system property '" + javaHome
-							+ "' is not executable or does not exist.");
+		"Java executable'" + javaExecutable + "'discovered via 'java.home' system property '" + javaHome
+	+ "' is not executable or does not exist.");
 			javaExecutablePath = javaExecutable.getAbsolutePath();
 		}
 		else {
 			logger.warn("System property 'java.home' is not set. Defaulting to the java executable path as "
-					+ JAVA_COMMAND + " assuming it's in PATH.");
+		+ JAVA_COMMAND + " assuming it's in PATH.");
 		}
 
 		return javaExecutablePath;
@@ -540,7 +541,7 @@ public class LocalDeployerProperties {
 	@Override
 	public String toString() {
 		return new ToStringCreator(this).append("workingDirectoriesRoot", this.workingDirectoriesRoot)
-				.append("javaOpts", this.javaOpts).append("envVarsToInherit", this.envVarsToInherit).toString();
+	.append("javaOpts", this.javaOpts).append("envVarsToInherit", this.envVarsToInherit).toString();
 	}
 
 	@Override

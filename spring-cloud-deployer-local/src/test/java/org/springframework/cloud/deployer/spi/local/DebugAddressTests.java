@@ -30,7 +30,7 @@ public class DebugAddressTests {
 	@Test
 	public void testDebugEmptyConfiguration() {
 		Optional<DebugAddress> debugAddress =
-				DebugAddress.from(new LocalDeployerProperties(), 0);
+	DebugAddress.from(new LocalDeployerProperties(), 0);
 		assertThat(debugAddress.isPresent()).isFalse();
 	}
 
@@ -39,7 +39,7 @@ public class DebugAddressTests {
 		LocalDeployerProperties properties = new LocalDeployerProperties();
 		properties.setDebugPort(20075);
 		Optional<DebugAddress> debugAddress =
-				DebugAddress.from(properties, 0);
+	DebugAddress.from(properties, 0);
 		assertThat(debugAddress.isPresent()).isTrue();
 		assertThat(debugAddress.get().getHost()).isNull();
 		assertThat(debugAddress.get().getPort()).isEqualTo("20075");
@@ -51,7 +51,7 @@ public class DebugAddressTests {
 		LocalDeployerProperties properties = new LocalDeployerProperties();
 		properties.setDebugPort(20075);
 		Optional<DebugAddress> debugAddress =
-				DebugAddress.from(properties, 100);
+	DebugAddress.from(properties, 100);
 		assertThat(debugAddress.isPresent()).isTrue();
 		assertThat(debugAddress.get().getHost()).isNull();
 		assertThat(debugAddress.get().getPort()).isEqualTo("20175");
@@ -63,7 +63,7 @@ public class DebugAddressTests {
 		LocalDeployerProperties properties = new LocalDeployerProperties();
 		properties.setDebugPort(-666);
 		Optional<DebugAddress> debugAddress =
-				DebugAddress.from(properties, 0);
+	DebugAddress.from(properties, 0);
 		assertThat(debugAddress.isPresent()).isFalse();
 	}
 
@@ -72,7 +72,7 @@ public class DebugAddressTests {
 		LocalDeployerProperties properties = new LocalDeployerProperties();
 		properties.setDebugAddress("20075");
 		Optional<DebugAddress> debugAddress =
-				DebugAddress.from(properties, 100);
+	DebugAddress.from(properties, 100);
 		assertThat(debugAddress.isPresent()).isTrue();
 		assertThat(debugAddress.get().getHost()).isNull();
 		assertThat(debugAddress.get().getPort()).isEqualTo("20175");
@@ -84,7 +84,7 @@ public class DebugAddressTests {
 		LocalDeployerProperties properties = new LocalDeployerProperties();
 		properties.setDebugAddress("*:20075");
 		Optional<DebugAddress> debugAddress =
-				DebugAddress.from(properties, 100);
+	DebugAddress.from(properties, 100);
 		assertThat(debugAddress.isPresent()).isTrue();
 		assertThat(debugAddress.get().getHost()).isEqualTo("*");
 		assertThat(debugAddress.get().getPort()).isEqualTo("20175");
@@ -97,7 +97,7 @@ public class DebugAddressTests {
 		LocalDeployerProperties properties = new LocalDeployerProperties();
 		properties.setDebugAddress("127.0.0.1:20075");
 		Optional<DebugAddress> debugAddress =
-				DebugAddress.from(properties, 100);
+	DebugAddress.from(properties, 100);
 		assertThat(debugAddress.isPresent()).isTrue();
 		assertThat(debugAddress.get().getHost()).isEqualTo("127.0.0.1");
 		assertThat(debugAddress.get().getPort()).isEqualTo("20175");
@@ -109,7 +109,7 @@ public class DebugAddressTests {
 		LocalDeployerProperties properties = new LocalDeployerProperties();
 		properties.setDebugAddress("localhost:20075");
 		Optional<DebugAddress> debugAddress =
-				DebugAddress.from(properties, 100);
+	DebugAddress.from(properties, 100);
 		assertThat(debugAddress.isPresent()).isTrue();
 		assertThat(debugAddress.get().getHost()).isEqualTo("localhost");
 		assertThat(debugAddress.get().getPort()).isEqualTo("20175");
@@ -121,7 +121,7 @@ public class DebugAddressTests {
 		LocalDeployerProperties properties = new LocalDeployerProperties();
 		properties.setDebugAddress("127.0.:20075");
 		Optional<DebugAddress> debugAddress =
-				DebugAddress.from(properties, 100);
+	DebugAddress.from(properties, 100);
 		assertThat(debugAddress.isPresent()).isFalse();
 	}
 

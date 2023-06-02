@@ -100,7 +100,7 @@ public class DeployerSocketUtils {
 			protected boolean isPortAvailable(int port) {
 				try {
 					ServerSocket serverSocket = ServerSocketFactory.getDefault().createServerSocket(port, 1,
-							InetAddress.getByName("localhost"));
+				InetAddress.getByName("localhost"));
 					serverSocket.close();
 					return true;
 				}
@@ -147,8 +147,8 @@ public class DeployerSocketUtils {
 			do {
 				if (searchCounter > portRange) {
 					throw new IllegalStateException(
-							String.format("Could not find an available %s port in the range [%d, %d] after %d attempts",
-									name(), minPort, maxPort, searchCounter));
+				String.format("Could not find an available %s port in the range [%d, %d] after %d attempts",
+			name(), minPort, maxPort, searchCounter));
 				}
 				candidatePort = findRandomPort(minPort, maxPort);
 				searchCounter++;
@@ -174,7 +174,7 @@ public class DeployerSocketUtils {
 			Assert.isTrue(maxPort <= PORT_RANGE_MAX, "'maxPort' must be less than or equal to " + PORT_RANGE_MAX);
 			Assert.isTrue(numRequested > 0, "'numRequested' must be greater than 0");
 			Assert.isTrue((maxPort - minPort) >= numRequested,
-					"'numRequested' must not be greater than 'maxPort' - 'minPort'");
+		"'numRequested' must not be greater than 'maxPort' - 'minPort'");
 
 			SortedSet<Integer> availablePorts = new TreeSet<>();
 			int attemptCount = 0;
@@ -184,8 +184,8 @@ public class DeployerSocketUtils {
 
 			if (availablePorts.size() != numRequested) {
 				throw new IllegalStateException(
-						String.format("Could not find %d available %s ports in the range [%d, %d]", numRequested,
-								name(), minPort, maxPort));
+			String.format("Could not find %d available %s ports in the range [%d, %d]", numRequested,
+		name(), minPort, maxPort));
 			}
 
 			return availablePorts;

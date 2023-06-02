@@ -39,7 +39,8 @@ public class RandomPortTests {
 
 	@BeforeEach
 	public void setUp() {
-		localDeployerSupport = new AbstractLocalDeployerSupport(new LocalDeployerProperties()) {};
+		localDeployerSupport = new AbstractLocalDeployerSupport(new LocalDeployerProperties()) {
+		};
 		when(appDeploymentRequest.getResource()).thenReturn(new ClassPathResource(""));
 	}
 

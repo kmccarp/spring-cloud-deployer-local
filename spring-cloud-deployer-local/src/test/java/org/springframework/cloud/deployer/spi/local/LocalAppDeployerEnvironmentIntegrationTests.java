@@ -66,9 +66,7 @@ import static org.awaitility.Awaitility.await;
  * @author Janne Valkealahti
  * @author Ilayaperumal Gopinathan
  */
-@SpringBootTest(classes = { Config.class, AbstractIntegrationTests.Config.class }, value = {
-		"maven.remoteRepositories.springRepo.url=https://repo.spring.io/snapshot",
-		"spring.cloud.deployer.local.use-spring-application-json=false"
+@SpringBootTest(classes = {Config.class, AbstractIntegrationTests.Config.class}, value = {"maven.remoteRepositories.springRepo.url=https://repo.spring.io/snapshot","spring.cloud.deployer.local.use-spring-application-json=false"
 })
 public class LocalAppDeployerEnvironmentIntegrationTests extends AbstractAppDeployerIntegrationJUnit5Tests {
 
@@ -126,10 +124,10 @@ public class LocalAppDeployerEnvironmentIntegrationTests extends AbstractAppDepl
 		String deploymentId = appDeployer().deploy(request);
 		Timeout timeout = deploymentTimeout();
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-				.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-				.untilAsserted(() -> {
-			assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.deployed);
-		});
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.deployed);
+	});
 
 		Map<String, AppInstanceStatus> instances = appDeployer().status(deploymentId).getInstances();
 		String url = null;
@@ -147,10 +145,10 @@ public class LocalAppDeployerEnvironmentIntegrationTests extends AbstractAppDepl
 		timeout = undeploymentTimeout();
 		appDeployer().undeploy(deploymentId);
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-				.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-				.untilAsserted(() -> {
-			assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.unknown);
-		});
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.unknown);
+	});
 
 		assertThat(url).isNotNull();
 		if (LocalDeployerUtils.isWindows()) {
@@ -181,20 +179,20 @@ public class LocalAppDeployerEnvironmentIntegrationTests extends AbstractAppDepl
 		String deploymentId = appDeployer().deploy(request);
 		Timeout timeout = deploymentTimeout();
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-				.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-				.untilAsserted(() -> {
-			assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.deployed);
-		});
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.deployed);
+	});
 
 		log.info("Undeploying {}...", deploymentId);
 
 		timeout = undeploymentTimeout();
 		appDeployer().undeploy(deploymentId);
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-				.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-				.untilAsserted(() -> {
-			assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.unknown);
-		});
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.unknown);
+	});
 	}
 
 	@Test
@@ -234,8 +232,8 @@ public class LocalAppDeployerEnvironmentIntegrationTests extends AbstractAppDepl
 		AppStatus appStatus = deployer.status(deploymentId);
 		if (resource instanceof DockerResource) {
 			try {
-				String containerId = getCommandOutput("docker ps -q --filter ancestor="+ TESTAPP_DOCKER_IMAGE_NAME);
-				String logOutput = getCommandOutput("docker logs "+ containerId);
+				String containerId = getCommandOutput("docker ps -q --filter ancestor=" + TESTAPP_DOCKER_IMAGE_NAME);
+				String logOutput = getCommandOutput("docker logs " + containerId);
 				assertThat(logOutput).contains("Listening for transport dt_socket at address: 9999");
 			} catch (IOException e) {
 			}
@@ -263,27 +261,27 @@ public class LocalAppDeployerEnvironmentIntegrationTests extends AbstractAppDepl
 		String deploymentId = appDeployer().deploy(request);
 		Timeout timeout = deploymentTimeout();
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-				.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-				.untilAsserted(() -> {
-					assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.deployed);
-				});
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.deployed);
+	});
 		String id = deploymentId + "-0";
 		Map<String, Object> env = actuatorOperations
-				.getFromActuator(deploymentId, id, "/env", Map.class);
+	.getFromActuator(deploymentId, id, "/env", Map.class);
 		assertThat(env).containsKeys("activeProfiles", "propertySources");
 		Map<String, Object> status = actuatorOperations
-				.getFromActuator(deploymentId, id, "/health", Map.class);
+	.getFromActuator(deploymentId, id, "/health", Map.class);
 		assertThat(status.get("status")).isEqualTo("UP");
 
 		Map<String, Object> loggers = actuatorOperations
-				.getFromActuator(deploymentId, id, "/loggers/org.springframework", Map.class);
+	.getFromActuator(deploymentId, id, "/loggers/org.springframework", Map.class);
 		assertThat(loggers).isNotNull();
 		assertThat(loggers.get("configuredLevel")).isNull();
-		actuatorOperations.postToActuator(deploymentId, id,"/loggers/org.springframework",
-				Collections.singletonMap("configuredLevel", "debug"),  Object.class);
+		actuatorOperations.postToActuator(deploymentId, id, "/loggers/org.springframework",
+	Collections.singletonMap("configuredLevel", "debug"), Object.class);
 		loggers = actuatorOperations
-				.getFromActuator(deploymentId, id, "/loggers/org.springframework", Map.class);
-		assertThat(((String)loggers.get("configuredLevel")).toLowerCase()).isEqualTo("debug");
+	.getFromActuator(deploymentId, id, "/loggers/org.springframework", Map.class);
+		assertThat(((String) loggers.get("configuredLevel")).toLowerCase()).isEqualTo("debug");
 
 	}
 

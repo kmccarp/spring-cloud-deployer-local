@@ -42,10 +42,10 @@ public interface CommandBuilder {
 	 * @return the build command as a string array.
 	 */
 	ProcessBuilder buildExecutionCommand(AppDeploymentRequest request,
-			Map<String, String> appInstanceEnv, String deployerId,
-			Optional<Integer> appInstanceNumber,
-			LocalDeployerProperties localDeployerProperties,
-			Optional<DebugAddress> debugAddress);
+Map<String, String> appInstanceEnv, String deployerId,
+Optional<Integer> appInstanceNumber,
+LocalDeployerProperties localDeployerProperties,
+Optional<DebugAddress> debugAddress);
 
 	/**
 	 * Compute an App unique URL over apps deployerId, instance index and computed port.

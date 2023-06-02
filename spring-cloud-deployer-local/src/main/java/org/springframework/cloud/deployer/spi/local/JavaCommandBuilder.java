@@ -61,7 +61,7 @@ public class JavaCommandBuilder implements CommandBuilder {
 	@Override
 	public int getPortSuggestion(LocalDeployerProperties localDeployerProperties) {
 		return ThreadLocalRandom.current().nextInt(localDeployerProperties.getPortRange().getLow(),
-				localDeployerProperties.getPortRange().getHigh());
+	localDeployerProperties.getPortRange().getHigh());
 	}
 
 	@Override
@@ -76,8 +76,8 @@ public class JavaCommandBuilder implements CommandBuilder {
 
 	@Override
 	public ProcessBuilder buildExecutionCommand(AppDeploymentRequest request, Map<String, String> appInstanceEnv,
-			String deployerId, Optional<Integer> appInstanceNumber, LocalDeployerProperties localDeployerProperties,
-			Optional<DebugAddress> debugAddressOption) {
+String deployerId, Optional<Integer> appInstanceNumber, LocalDeployerProperties localDeployerProperties,
+Optional<DebugAddress> debugAddressOption) {
 		ArrayList<String> commands = new ArrayList<>();
 		Map<String, String> deploymentProperties = request.getDeploymentProperties();
 		commands.add(bindDeploymentProperties(deploymentProperties).getJavaCmd());
@@ -111,7 +111,7 @@ public class JavaCommandBuilder implements CommandBuilder {
 	 */
 	protected void retainEnvVars(Map<String, String> vars, LocalDeployerProperties localDeployerProperties) {
 		List<String> patterns = new ArrayList<>(Arrays.asList(localDeployerProperties.getEnvVarsToInherit()));
-		for (Iterator<Entry<String, String>> iterator = vars.entrySet().iterator(); iterator.hasNext();) {
+		for (Iterator<Entry<String, String>> iterator = vars.entrySet().iterator(); iterator.hasNext(); ) {
 			Entry<String, String> entry = iterator.next();
 			String var = entry.getKey();
 			boolean retain = false;
@@ -128,11 +128,11 @@ public class JavaCommandBuilder implements CommandBuilder {
 	}
 
 	protected void addJavaOptions(List<String> commands, Map<String, String> deploymentProperties,
-			LocalDeployerProperties localDeployerProperties) {
+LocalDeployerProperties localDeployerProperties) {
 		String memory = null;
 		if (deploymentProperties.containsKey(AppDeployer.MEMORY_PROPERTY_KEY)) {
 			memory = "-Xmx" +
-					ByteSizeUtils.parseToMebibytes(deploymentProperties.get(AppDeployer.MEMORY_PROPERTY_KEY)) + "m";
+		ByteSizeUtils.parseToMebibytes(deploymentProperties.get(AppDeployer.MEMORY_PROPERTY_KEY)) + "m";
 		}
 
 		String javaOptsString = bindDeploymentProperties(deploymentProperties).getJavaOpts();
@@ -176,8 +176,8 @@ public class JavaCommandBuilder implements CommandBuilder {
 	protected LocalDeployerProperties bindDeploymentProperties(Map<String, String> runtimeDeploymentProperties) {
 		LocalDeployerProperties copyOfDefaultProperties = new LocalDeployerProperties(this.properties);
 		return new Binder(new MapConfigurationPropertySource(runtimeDeploymentProperties))
-				.bind(LocalDeployerProperties.PREFIX, Bindable.ofInstance(copyOfDefaultProperties))
-				.orElse(copyOfDefaultProperties);
+	.bind(LocalDeployerProperties.PREFIX, Bindable.ofInstance(copyOfDefaultProperties))
+	.orElse(copyOfDefaultProperties);
 	}
 
 }

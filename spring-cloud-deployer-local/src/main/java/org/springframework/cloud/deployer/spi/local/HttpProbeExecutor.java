@@ -36,42 +36,42 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 public class HttpProbeExecutor {
 
 	private static final Logger logger = LoggerFactory.getLogger(HttpProbeExecutor.class);
-    private final RestTemplate restTemplate;
-    private final URI uri;
+	private final RestTemplate restTemplate;
+	private final URI uri;
 
-    public HttpProbeExecutor(RestTemplate restTemplate, URI uri) {
-        this.restTemplate = restTemplate;
-        this.uri = uri;
-    }
+	public HttpProbeExecutor(RestTemplate restTemplate, URI uri) {
+		this.restTemplate = restTemplate;
+		this.uri = uri;
+	}
 
-    public static HttpProbeExecutor from(URL baseUrl, HttpProbe httpProbe) {
-        URI base = null;
-        try {
-            base = baseUrl.toURI();
-        } catch (Exception e) {
-        }
-        if (httpProbe == null || httpProbe.getPath() == null || base == null) {
-            return null;
-        }
-        DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory(base.toString());
-        uriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
-        URI uri = uriBuilderFactory.builder().path("{path}").build(httpProbe.getPath());
-        return new HttpProbeExecutor(new RestTemplate(), uri);
-    }
+	public static HttpProbeExecutor from(URL baseUrl, HttpProbe httpProbe) {
+		URI base = null;
+		try {
+			base = baseUrl.toURI();
+		} catch (Exception e) {
+		}
+		if (httpProbe == null || httpProbe.getPath() == null || base == null) {
+			return null;
+		}
+		DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory(base.toString());
+		uriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
+		URI uri = uriBuilderFactory.builder().path("{path}").build(httpProbe.getPath());
+		return new HttpProbeExecutor(new RestTemplate(), uri);
+	}
 
-    public boolean probe() {
-        try {
-            logger.info("Probing for {}", this.uri);
-            ResponseEntity<Void> response = restTemplate.getForEntity(uri, Void.class);
-            HttpStatus statusCode = response.getStatusCode();
-            boolean ok = statusCode.is2xxSuccessful();
-            if (!ok) {
-                logger.info("Probe for {} returned {}", this.uri, statusCode);
-            }
-            return ok;
-        } catch (Exception e) {
-            logger.trace("Probe error for {}", this.uri, e);
-        }
-        return false;
-    }
+	public boolean probe() {
+		try {
+			logger.info("Probing for {}", this.uri);
+			ResponseEntity<Void> response = restTemplate.getForEntity(uri, Void.class);
+			HttpStatus statusCode = response.getStatusCode();
+			boolean ok = statusCode.is2xxSuccessful();
+			if (!ok) {
+				logger.info("Probe for {} returned {}", this.uri, statusCode);
+			}
+			return ok;
+		} catch (Exception e) {
+			logger.trace("Probe error for {}", this.uri, e);
+		}
+		return false;
+	}
 }

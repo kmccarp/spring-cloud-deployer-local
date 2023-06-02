@@ -74,7 +74,7 @@ public abstract class AbstractLocalDeployerSupport {
 	public static final int DEFAULT_SERVER_PORT = 8080;
 
 	private static final String USE_SPRING_APPLICATION_JSON_KEY = LocalDeployerProperties.PREFIX
-			+ ".use-spring-application-json";
++ ".use-spring-application-json";
 
 	static final String SERVER_PORT_KEY = "server.port";
 
@@ -131,11 +131,11 @@ public abstract class AbstractLocalDeployerSupport {
 	 */
 	protected RuntimeEnvironmentInfo createRuntimeEnvironmentInfo(Class<?> spiClass, Class<?> implementationClass) {
 		return new RuntimeEnvironmentInfo.Builder().spiClass(spiClass)
-				.implementationName(implementationClass.getSimpleName())
-				.implementationVersion(RuntimeVersionUtils.getVersion(implementationClass)).platformType("Local")
-				.platformApiVersion(System.getProperty("os.name") + " " + System.getProperty("os.version"))
-				.platformClientVersion(System.getProperty("os.version"))
-				.platformHostVersion(System.getProperty("os.version")).build();
+	.implementationName(implementationClass.getSimpleName())
+	.implementationVersion(RuntimeVersionUtils.getVersion(implementationClass)).platformType("Local")
+	.platformApiVersion(System.getProperty("os.name") + " " + System.getProperty("os.version"))
+	.platformClientVersion(System.getProperty("os.version"))
+	.platformHostVersion(System.getProperty("os.version")).build();
 	}
 
 	/**
@@ -157,13 +157,13 @@ public abstract class AbstractLocalDeployerSupport {
 	 * @return the process builder
 	 */
 	protected ProcessBuilder buildProcessBuilder(AppDeploymentRequest request, Map<String, String> appInstanceEnv,
-			Optional<Integer> appInstanceNumber, String deploymentId) {
+Optional<Integer> appInstanceNumber, String deploymentId) {
 		Assert.notNull(request, "AppDeploymentRequest must be set");
 
 		Map<String, String> appPropertiesToUse = formatApplicationProperties(request, appInstanceEnv);
 		if (logger.isInfoEnabled()) {
 			logger.info("Preparing to run an application from {}. This may take some time if the artifact must be " +
-					"downloaded from a remote host.", request.getResource());
+		"downloaded from a remote host.", request.getResource());
 		}
 
 		LocalDeployerProperties localDeployerProperties = bindDeploymentProperties(request.getDeploymentProperties());
@@ -171,8 +171,8 @@ public abstract class AbstractLocalDeployerSupport {
 		Optional<DebugAddress> debugAddressOption = DebugAddress.from(localDeployerProperties, appInstanceNumber.orElse(0));
 
 		ProcessBuilder builder = getCommandBuilder(request)
-				.buildExecutionCommand(request, appPropertiesToUse, deploymentId, appInstanceNumber,
-						localDeployerProperties, debugAddressOption);
+	.buildExecutionCommand(request, appPropertiesToUse, deploymentId, appInstanceNumber,
+localDeployerProperties, debugAddressOption);
 
 		logger.info(String.format("Command to be executed: %s", String.join(" ", builder.command())));
 		//logger.debug(String.format("Environment Variables to be used : %s", builder.environment().entrySet().stream()
@@ -212,12 +212,12 @@ public abstract class AbstractLocalDeployerSupport {
 	protected LocalDeployerProperties bindDeploymentProperties(Map<String, String> runtimeDeploymentProperties) {
 		LocalDeployerProperties copyOfDefaultProperties = new LocalDeployerProperties(this.localDeployerProperties);
 		return new Binder(new MapConfigurationPropertySource(runtimeDeploymentProperties))
-				.bind(LocalDeployerProperties.PREFIX, Bindable.ofInstance(copyOfDefaultProperties))
-				.orElse(copyOfDefaultProperties);
+	.bind(LocalDeployerProperties.PREFIX, Bindable.ofInstance(copyOfDefaultProperties))
+	.orElse(copyOfDefaultProperties);
 	}
 
 	protected Map<String, String> formatApplicationProperties(AppDeploymentRequest request,
-			Map<String, String> appInstanceEnvToUse) {
+Map<String, String> appInstanceEnvToUse) {
 		Map<String, String> applicationPropertiesToUse = new HashMap<>(appInstanceEnvToUse);
 
 		if (useSpringApplicationJson(request)) {
@@ -225,15 +225,15 @@ public abstract class AbstractLocalDeployerSupport {
 				// If SPRING_APPLICATION_JSON is found, explode it and merge back into appProperties
 				if (applicationPropertiesToUse.containsKey(SPRING_APPLICATION_JSON)) {
 					applicationPropertiesToUse
-							.putAll(OBJECT_MAPPER.readValue(applicationPropertiesToUse.get(SPRING_APPLICATION_JSON),
-									new TypeReference<HashMap<String, String>>() {
-									}));
+				.putAll(OBJECT_MAPPER.readValue(applicationPropertiesToUse.get(SPRING_APPLICATION_JSON),
+			new TypeReference<HashMap<String, String>>() {
+			}));
 					applicationPropertiesToUse.remove(SPRING_APPLICATION_JSON);
 				}
 			}
 			catch (IOException e) {
 				throw new IllegalArgumentException(
-						"Unable to read existing SPRING_APPLICATION_JSON to merge properties", e);
+			"Unable to read existing SPRING_APPLICATION_JSON to merge properties", e);
 			}
 
 			try {
@@ -245,7 +245,7 @@ public abstract class AbstractLocalDeployerSupport {
 			}
 			catch (JsonProcessingException e) {
 				throw new IllegalArgumentException(
-						"Unable to create SPRING_APPLICATION_JSON from application properties", e);
+			"Unable to create SPRING_APPLICATION_JSON from application properties", e);
 			}
 		}
 
@@ -268,9 +268,9 @@ public abstract class AbstractLocalDeployerSupport {
 			if (timeout > 0) {
 				logger.debug("About to call shutdown endpoint for the instance {}", instance);
 				ResponseEntity<String> response = restTemplate.postForEntity(
-						instance.getBaseUrl() + "/shutdown", null, String.class);
+			instance.getBaseUrl() + "/shutdown", null, String.class);
 				logger.debug("Response for shutdown endpoint completed for the instance {} with response {}", instance,
-						response);
+			response);
 				if (response.getStatusCode().is2xxSuccessful()) {
 					long timeoutTimestamp = System.currentTimeMillis() + (timeout * 1000);
 					while (isAlive(instance.getProcess()) && System.currentTimeMillis() < timeoutTimestamp) {
@@ -311,7 +311,7 @@ public abstract class AbstractLocalDeployerSupport {
 
 	protected boolean useSpringApplicationJson(AppDeploymentRequest request) {
 		return request.getDefinition().getProperties().containsKey(USE_SPRING_APPLICATION_JSON_KEY)
-				|| this.localDeployerProperties.isUseSpringApplicationJson();
+	|| this.localDeployerProperties.isUseSpringApplicationJson();
 	}
 
 	// TODO (tzolov): This method has a treacherous side affect! Apart from returning the computed Port it also modifies
@@ -322,7 +322,7 @@ public abstract class AbstractLocalDeployerSupport {
 	//  method return the mutated appInstanceEnvVars. Sync with the SCT team because the method is used by the
 	//  LocalTaskLauncher (e.g. prod. grade)
 	protected int calcServerPort(AppDeploymentRequest request, boolean useDynamicPort,
-			Map<String, String> appInstanceEnvVars) {
+Map<String, String> appInstanceEnvVars) {
 
 		int port = DEFAULT_SERVER_PORT;
 		Integer commandLineArgPort = isServerPortKeyPresentOnArgs(request);
@@ -372,7 +372,7 @@ public abstract class AbstractLocalDeployerSupport {
 		}
 		if (availPorts.isEmpty()) {
 			throw new IllegalStateException(
-					"Could not find an available TCP port in the range" + localDeployerProperties.getPortRange());
+		"Could not find an available TCP port in the range" + localDeployerProperties.getPortRange());
 		}
 
 		int finalPort = -1;
@@ -386,7 +386,7 @@ public abstract class AbstractLocalDeployerSupport {
 		}
 		if (finalPort == -1) {
 			throw new IllegalStateException(
-					"Could not find a free random port range " + localDeployerProperties.getPortRange());
+		"Could not find a free random port range " + localDeployerProperties.getPortRange());
 		}
 		logger.debug("Using Port: " + finalPort);
 		return finalPort;
@@ -394,10 +394,10 @@ public abstract class AbstractLocalDeployerSupport {
 
 	protected Integer isServerPortKeyPresentOnArgs(AppDeploymentRequest request) {
 		return request.getCommandlineArguments().stream()
-				.filter(argument -> argument.startsWith(SERVER_PORT_KEY_COMMAND_LINE_ARG))
-				.map(argument -> Integer.parseInt(argument.replace(SERVER_PORT_KEY_COMMAND_LINE_ARG, "").trim()))
-				.findFirst()
-				.orElse(null);
+	.filter(argument -> argument.startsWith(SERVER_PORT_KEY_COMMAND_LINE_ARG))
+	.map(argument -> Integer.parseInt(argument.replace(SERVER_PORT_KEY_COMMAND_LINE_ARG, "").trim()))
+	.findFirst()
+	.orElse(null);
 	}
 
 	protected interface Instance {

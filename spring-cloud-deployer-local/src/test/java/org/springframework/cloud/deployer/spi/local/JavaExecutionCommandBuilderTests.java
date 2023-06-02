@@ -95,7 +95,7 @@ public class JavaExecutionCommandBuilderTests {
 		when(resource.getFile()).thenReturn(new File("/"));
 		AppDeploymentRequest appDeploymentRequest = new AppDeploymentRequest(mock(AppDefinition.class), resource, properties);
 		ProcessBuilder builder = commandBuilder.buildExecutionCommand(appDeploymentRequest, new HashMap<>(),
-				"deployerId", Optional.of(1), new LocalDeployerProperties(), Optional.empty());
+	"deployerId", Optional.of(1), new LocalDeployerProperties(), Optional.empty());
 		assertThat(builder.command().get(0)).isEqualTo("/test/java");
 	}
 
@@ -107,7 +107,7 @@ public class JavaExecutionCommandBuilderTests {
 		when(resource.getFile()).thenReturn(new File("/"));
 		AppDeploymentRequest appDeploymentRequest = new AppDeploymentRequest(mock(AppDefinition.class), resource, properties);
 		ProcessBuilder builder = commandBuilder.buildExecutionCommand(appDeploymentRequest, new HashMap<>(),
-				"deployerId", Optional.of(1), new LocalDeployerProperties(), Optional.empty());
+	"deployerId", Optional.of(1), new LocalDeployerProperties(), Optional.empty());
 		assertThat(builder.command().get(0)).isEqualTo("/test/java");
 	}
 
@@ -153,7 +153,7 @@ public class JavaExecutionCommandBuilderTests {
 		AppDefinition definition = new AppDefinition("randomApp", new HashMap<>());
 		deploymentProperties.put(LocalDeployerProperties.PREFIX + ".javaOpts", "-Dtest=foo -Dbar=baz");
 		AppDeploymentRequest appDeploymentRequest =
-				new AppDeploymentRequest(definition, testResource(), deploymentProperties);
+	new AppDeploymentRequest(definition, testResource(), deploymentProperties);
 		commandBuilder.addJavaExecutionOptions(args, appDeploymentRequest);
 		assertThat(args).hasSize(2);
 		assertThat(args.get(0)).isEqualTo("-jar");
@@ -166,7 +166,7 @@ public class JavaExecutionCommandBuilderTests {
 			AppDefinition definition = new AppDefinition("randomApp", new HashMap<>());
 			deploymentProperties.put(LocalDeployerProperties.PREFIX + ".javaOpts", "-Dtest=foo -Dbar=baz");
 			AppDeploymentRequest appDeploymentRequest =
-					new AppDeploymentRequest(definition, new UrlResource("https://spring.io"), deploymentProperties);
+		new AppDeploymentRequest(definition, new UrlResource("https://spring.io"), deploymentProperties);
 			commandBuilder.addJavaExecutionOptions(args, appDeploymentRequest);
 		});
 	}

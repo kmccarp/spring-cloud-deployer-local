@@ -71,8 +71,7 @@ import static org.awaitility.Awaitility.await;
  * @author Janne Valkealahti
  * @author Ilayaperumal Gopinathan
  */
-@SpringBootTest(classes = {Config.class, AbstractIntegrationTests.Config.class}, value = {
-		"maven.remoteRepositories.springRepo.url=https://repo.spring.io/snapshot"})
+@SpringBootTest(classes = {Config.class, AbstractIntegrationTests.Config.class}, value = {"maven.remoteRepositories.springRepo.url=https://repo.spring.io/snapshot"})
 public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegrationJUnit5Tests {
 
 	private static final String TESTAPP_DOCKER_IMAGE_NAME = "springcloud/spring-cloud-deployer-spi-test-app:latest";
@@ -126,10 +125,10 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 		String deploymentId = appDeployer().deploy(request);
 		Timeout timeout = deploymentTimeout();
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-				.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-				.untilAsserted(() -> {
-			assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.deployed);
-		});
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.deployed);
+	});
 
 		Map<String, AppInstanceStatus> instances = appDeployer().status(deploymentId).getInstances();
 		String url = null;
@@ -147,10 +146,10 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 		timeout = undeploymentTimeout();
 		appDeployer().undeploy(deploymentId);
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-				.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-				.untilAsserted(() -> {
-			assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.unknown);
-		});
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.unknown);
+	});
 
 		assertThat(url).isNotNull();
 		if (LocalDeployerUtils.isWindows()) {
@@ -179,10 +178,10 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 		String deploymentId = appDeployer().deploy(request);
 		Timeout timeout = deploymentTimeout();
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-				.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-				.untilAsserted(() -> {
-			assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.deployed);
-		});
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.deployed);
+	});
 		String logContent = appDeployer().getLog(deploymentId);
 		assertThat(logContent).contains("Starting DeployerIntegrationTestApplication");
 	}
@@ -212,20 +211,20 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 		String deploymentId = appDeployer().deploy(request);
 		Timeout timeout = deploymentTimeout();
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-				.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-				.untilAsserted(() -> {
-			assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.deployed);
-		});
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.deployed);
+	});
 
 		log.info("Undeploying {}...", deploymentId);
 
 		timeout = undeploymentTimeout();
 		appDeployer().undeploy(deploymentId);
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-				.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-				.untilAsserted(() -> {
-			assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.unknown);
-		});
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.unknown);
+	});
 	}
 
 	@Test
@@ -265,8 +264,8 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 		AppStatus appStatus = deployer.status(deploymentId);
 		if (resource instanceof DockerResource) {
 			try {
-				String containerId = getCommandOutput("docker ps -q --filter ancestor="+ TESTAPP_DOCKER_IMAGE_NAME);
-				String logOutput = getCommandOutput("docker logs "+ containerId);
+				String containerId = getCommandOutput("docker ps -q --filter ancestor=" + TESTAPP_DOCKER_IMAGE_NAME);
+				String logOutput = getCommandOutput("docker logs " + containerId);
 				assertThat(logOutput).contains("Listening for transport dt_socket at address: 9999");
 			} catch (IOException e) {
 			}
@@ -295,10 +294,10 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 		AppStatus appStatus = deployer.status(deploymentId);
 		if (resource instanceof DockerResource) {
 			try {
-				String containerId = getCommandOutput("docker ps -q --filter ancestor="+ TESTAPP_DOCKER_IMAGE_NAME);
-				String logOutput = getCommandOutput("docker logs "+ containerId);
+				String containerId = getCommandOutput("docker ps -q --filter ancestor=" + TESTAPP_DOCKER_IMAGE_NAME);
+				String logOutput = getCommandOutput("docker logs " + containerId);
 				assertThat(logOutput).contains("Listening for transport dt_socket at address: 8888");
-				String containerPorts = getCommandOutputAll("docker port "+ containerId);
+				String containerPorts = getCommandOutputAll("docker port " + containerId);
 				assertThat(containerPorts).contains("8888/tcp -> 0.0.0.0:8888");
 			} catch (IOException e) {
 			}
@@ -334,19 +333,19 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 		String deploymentId = appDeployer.deploy(request);
 		Timeout timeout = deploymentTimeout();
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-				.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-				.untilAsserted(() -> {
-			assertThat(appDeployer.status(deploymentId).getState()).isEqualTo(DeploymentState.deployed);
-		});
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(appDeployer.status(deploymentId).getState()).isEqualTo(DeploymentState.deployed);
+	});
 
 		timeout = undeploymentTimeout();
 		// Undeploy
 		appDeployer.undeploy(deploymentId);
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-				.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-				.untilAsserted(() -> {
-			assertThat(appDeployer.status(deploymentId).getState()).isEqualTo(DeploymentState.unknown);
-		});
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(appDeployer.status(deploymentId).getState()).isEqualTo(DeploymentState.unknown);
+	});
 
 		List<Path> afterDirs = getAfterPaths(customWorkDirRoot);
 		assertThat(afterDirs).as("Additional working directory not created").hasSize(beforeDirs.size() + 1);
@@ -371,20 +370,20 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 		String deploymentId = appDeployer().deploy(request);
 		Timeout timeout = deploymentTimeout();
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-				.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-				.untilAsserted(() -> {
-			assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.deployed);
-		});
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.deployed);
+	});
 
 		log.info("Undeploying {}...", deploymentId);
 
 		timeout = undeploymentTimeout();
 		appDeployer().undeploy(deploymentId);
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-				.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-				.untilAsserted(() -> {
-			assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.unknown);
-		});
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.unknown);
+	});
 
 
 		List<Path> afterDirs = getAfterPaths(customWorkDirRoot);
@@ -416,10 +415,10 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 		Timeout timeout = undeploymentTimeout();
 		appDeployer().undeploy(deploymentId);
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-				.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-				.untilAsserted(() -> {
-			assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.unknown);
-		});
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.unknown);
+	});
 	}
 
 	@Test
@@ -447,10 +446,10 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 		Timeout timeout = undeploymentTimeout();
 		appDeployer().undeploy(deploymentId);
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-				.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-				.untilAsserted(() -> {
-			assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.unknown);
-		});
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.unknown);
+	});
 	}
 
 	@Test
@@ -475,10 +474,10 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 		Timeout timeout = undeploymentTimeout();
 		appDeployer().undeploy(deploymentId);
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-				.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-				.untilAsserted(() -> {
-			assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.unknown);
-		});
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.unknown);
+	});
 	}
 
 	@Test
@@ -507,10 +506,10 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 		Timeout timeout = undeploymentTimeout();
 		appDeployer().undeploy(deploymentId);
 		await().pollInterval(Duration.ofMillis(timeout.pause))
-				.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
-				.untilAsserted(() -> {
-			assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.unknown);
-		});
+	.atMost(Duration.ofMillis(timeout.maxAttempts * timeout.pause))
+	.untilAsserted(() -> {
+		assertThat(appDeployer().status(deploymentId).getState()).isEqualTo(DeploymentState.unknown);
+	});
 	}
 
 	private List<Path> getAfterPaths(Path customWorkDirRoot) throws IOException {
@@ -518,9 +517,9 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 			return new ArrayList<>();
 		}
 		return Files.walk(customWorkDirRoot, 1)
-					.filter(path -> Files.isDirectory(path))
-					.filter(path -> !path.getFileName().toString().startsWith("."))
-					.collect(Collectors.toList());
+	.filter(path -> Files.isDirectory(path))
+	.filter(path -> !path.getFileName().toString().startsWith("."))
+	.collect(Collectors.toList());
 	}
 
 	private List<Path> getBeforePaths(Path customWorkDirRoot) throws IOException {
@@ -528,8 +527,8 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 		beforeDirs.add(customWorkDirRoot);
 		if (Files.exists(customWorkDirRoot)) {
 			beforeDirs = Files.walk(customWorkDirRoot, 1)
-					.filter(path -> Files.isDirectory(path))
-					.collect(Collectors.toList());
+		.filter(path -> Files.isDirectory(path))
+		.collect(Collectors.toList());
 		}
 		return beforeDirs;
 	}

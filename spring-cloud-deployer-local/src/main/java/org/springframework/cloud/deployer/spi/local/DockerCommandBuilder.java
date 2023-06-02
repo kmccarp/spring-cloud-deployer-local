@@ -68,7 +68,7 @@ public class DockerCommandBuilder implements CommandBuilder {
 	@Override
 	public int getPortSuggestion(LocalDeployerProperties localDeployerProperties) {
 		return ThreadLocalRandom.current().nextInt(localDeployerProperties.getDocker().getPortRange().getLow(),
-				localDeployerProperties.getDocker().getPortRange().getHigh());
+	localDeployerProperties.getDocker().getPortRange().getHigh());
 	}
 
 	@Override
@@ -83,8 +83,8 @@ public class DockerCommandBuilder implements CommandBuilder {
 
 	@Override
 	public ProcessBuilder buildExecutionCommand(AppDeploymentRequest request, Map<String, String> appInstanceEnv, String deployerId,
-			Optional<Integer> appInstanceNumber, LocalDeployerProperties localDeployerProperties,
-			Optional<DebugAddress> debugAddressOption) {
+Optional<Integer> appInstanceNumber, LocalDeployerProperties localDeployerProperties,
+Optional<DebugAddress> debugAddressOption) {
 
 		appInstanceEnv.put("deployerId", deployerId);
 		List<String> commands = addDockerOptions(request, appInstanceEnv, appInstanceNumber, localDeployerProperties, debugAddressOption);
@@ -94,8 +94,8 @@ public class DockerCommandBuilder implements CommandBuilder {
 	}
 
 	private List<String> addDockerOptions(AppDeploymentRequest request, Map<String, String> appInstanceEnv,
-			Optional<Integer> appInstanceNumber, LocalDeployerProperties localDeployerProperties,
-			Optional<DebugAddress> debugAddressOption) {
+Optional<Integer> appInstanceNumber, LocalDeployerProperties localDeployerProperties,
+Optional<DebugAddress> debugAddressOption) {
 
 		List<String> commands = new ArrayList<>();
 		commands.add("docker");
@@ -133,8 +133,8 @@ public class DockerCommandBuilder implements CommandBuilder {
 			commands.add(String.format("%s:%s", port, port));
 		}
 
-		applyPortMappings(commands,localDeployerProperties);
-		applyVolumeMountings(commands,localDeployerProperties);
+		applyPortMappings(commands, localDeployerProperties);
+		applyVolumeMountings(commands, localDeployerProperties);
 
 
 		if (request.getDeploymentProperties().containsKey(DOCKER_CONTAINER_NAME_KEY)) {
@@ -191,8 +191,9 @@ public class DockerCommandBuilder implements CommandBuilder {
 		if (appInstanceEnv.containsKey(AbstractLocalDeployerSupport.SPRING_APPLICATION_JSON)) {
 			try {
 				HashMap<String, String> flatProperties = new HashMap<>((OBJECT_MAPPER.readValue(
-						appInstanceEnv.get(AbstractLocalDeployerSupport.SPRING_APPLICATION_JSON),
-						new TypeReference<HashMap<String, String>>() {})));
+			appInstanceEnv.get(AbstractLocalDeployerSupport.SPRING_APPLICATION_JSON),
+			new TypeReference<HashMap<String, String>>() {
+			})));
 
 				if (flatProperties.containsKey(LocalAppDeployer.SERVER_PORT_KEY)) {
 					return flatProperties.get(LocalAppDeployer.SERVER_PORT_KEY);

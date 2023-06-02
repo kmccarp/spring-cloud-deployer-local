@@ -48,7 +48,8 @@ public class RandomPortRangeTests {
 		properties.getDocker().getPortRange().setLow(40001);
 		properties.getDocker().getPortRange().setHigh(40213);
 
-		localDeployerSupport = new AbstractLocalDeployerSupport(properties) {};
+		localDeployerSupport = new AbstractLocalDeployerSupport(properties) {
+		};
 
 	}
 

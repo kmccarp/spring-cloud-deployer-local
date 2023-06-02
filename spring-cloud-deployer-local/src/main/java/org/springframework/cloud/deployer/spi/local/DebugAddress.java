@@ -87,8 +87,8 @@ public class DebugAddress {
 				debugPort = addressParts[1].trim();
 
 				if (!("*".equals(debugHost)
-						|| HOSTNAME_PATTERN.matcher(debugHost).matches()
-						|| IP_PATTERN.matcher(debugHost).matches())) {
+			|| HOSTNAME_PATTERN.matcher(debugHost).matches()
+			|| IP_PATTERN.matcher(debugHost).matches())) {
 					logger.warn("Invalid debug Host: {}", deployerProperties.getDebugAddress());
 					return Optional.empty();
 				}
