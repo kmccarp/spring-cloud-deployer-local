@@ -115,8 +115,8 @@ public class DockerCommandBuilderTests {
 		AppDeploymentRequest request = new AppDeploymentRequest(definition, resource, deploymentProperties);
 		ProcessBuilder builder = deployer.buildProcessBuilder(request, request.getDefinition().getProperties(), Optional.of(1), "foo");
 
-		String SAJ = LocalDeployerUtils.isWindows() ? "SPRING_APPLICATION_JSON={\\\"foo\\\":\\\"bar\\\"}" : "SPRING_APPLICATION_JSON={\"foo\":\"bar\"}";
-		assertThat(builder.command()).contains("-e", SAJ);
+		String saj = LocalDeployerUtils.isWindows() ? "SPRING_APPLICATION_JSON={\\\"foo\\\":\\\"bar\\\"}" : "SPRING_APPLICATION_JSON={\"foo\":\"bar\"}";
+		assertThat(builder.command()).contains("-e", saj);
 	}
 
 	@Test
