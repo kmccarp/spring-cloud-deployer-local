@@ -102,7 +102,7 @@ public class LocalAppDeployerEnvironmentIntegrationTests extends AbstractAppDepl
 		if (LocalDeployerUtils.isWindows()) {
 			// tweak random dir name on win to be shorter
 			String uuid = UUID.randomUUID().toString();
-			long l = ByteBuffer.wrap(uuid.toString().getBytes()).getLong();
+			long l = ByteBuffer.wrap(uuid.getBytes()).getLong();
 			return testName + Long.toString(l, Character.MAX_RADIX);
 		}
 		else {
