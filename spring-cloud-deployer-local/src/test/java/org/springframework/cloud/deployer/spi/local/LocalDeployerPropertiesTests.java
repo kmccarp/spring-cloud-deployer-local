@@ -40,7 +40,7 @@ public class LocalDeployerPropertiesTests {
 	public void defaultNoPropertiesSet() {
 		this.contextRunner
 				.withUserConfiguration(Config1.class)
-				.run((context) -> {
+				.run(context -> {
 					LocalDeployerProperties properties = context.getBean(LocalDeployerProperties.class);
 					assertThat(properties.getDebugPort()).isNull();
 					assertThat(properties.getDebugSuspend()).isEqualTo(LocalDeployerProperties.DebugSuspendType.y);
@@ -93,7 +93,7 @@ public class LocalDeployerPropertiesTests {
 							StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME, map));
 				})
 				.withUserConfiguration(Config1.class)
-				.run((context) -> {
+				.run(context -> {
 					LocalDeployerProperties properties = context.getBean(LocalDeployerProperties.class);
 					assertThat(properties.getDebugPort()).isEqualTo(8888);
 					assertThat(properties.getDebugSuspend()).isEqualTo(LocalDeployerProperties.DebugSuspendType.n);
@@ -150,7 +150,7 @@ public class LocalDeployerPropertiesTests {
 							StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME, map));
 				})
 				.withUserConfiguration(Config1.class)
-				.run((context) -> {
+				.run(context -> {
 					LocalDeployerProperties properties = context.getBean(LocalDeployerProperties.class);
 					assertThat(properties.getDebugPort()).isEqualTo(8888);
 					assertThat(properties.getDebugSuspend()).isEqualTo(LocalDeployerProperties.DebugSuspendType.n);
@@ -185,7 +185,7 @@ public class LocalDeployerPropertiesTests {
 				})
 
 				.withUserConfiguration(Config1.class)
-				.run((context) -> {
+				.run(context -> {
 					LocalDeployerProperties properties = context.getBean(LocalDeployerProperties.class);
 					assertThat(properties.getWorkingDirectoriesRoot()).isNotNull();
 					assertThat(properties.getWorkingDirectoriesRoot().toString()).isEqualTo("C:\\tmp");
@@ -204,7 +204,7 @@ public class LocalDeployerPropertiesTests {
 							StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME, map));
 				})
 				.withUserConfiguration(Config1.class)
-				.run((context) -> {
+				.run(context -> {
 					LocalDeployerProperties properties = context.getBean(LocalDeployerProperties.class);
 					assertThat(properties.getWorkingDirectoriesRoot()).isNotNull();
 					assertThat(properties.getWorkingDirectoriesRoot().toString()).isEqualTo("/tmp");
