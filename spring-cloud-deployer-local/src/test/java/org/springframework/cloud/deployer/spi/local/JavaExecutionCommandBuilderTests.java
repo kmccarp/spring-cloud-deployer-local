@@ -193,8 +193,8 @@ public class JavaExecutionCommandBuilderTests {
 		LocalAppDeployer deployer = new LocalAppDeployer(properties);
 		Map<String, String> applicationProperties = new HashMap<>();
 		applicationProperties.put("foo", "bar");
-		String SAJ = "{\"debug\":\"true\"}";
-		applicationProperties.put(AbstractLocalDeployerSupport.SPRING_APPLICATION_JSON, SAJ);
+		String saj = "{\"debug\":\"true\"}";
+		applicationProperties.put(AbstractLocalDeployerSupport.SPRING_APPLICATION_JSON, saj);
 		AppDefinition definition = new AppDefinition("foo", applicationProperties);
 
 		deploymentProperties.put(LocalDeployerProperties.DEBUG_PORT, "9999");

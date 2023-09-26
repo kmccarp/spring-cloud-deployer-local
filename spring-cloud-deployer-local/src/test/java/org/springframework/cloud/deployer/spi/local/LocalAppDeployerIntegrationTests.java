@@ -102,7 +102,7 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 		if (LocalDeployerUtils.isWindows()) {
 			// tweak random dir name on win to be shorter
 			String uuid = UUID.randomUUID().toString();
-			long l = ByteBuffer.wrap(uuid.toString().getBytes()).getLong();
+			long l = ByteBuffer.wrap(uuid.getBytes()).getLong();
 			return testName + Long.toString(l, Character.MAX_RADIX);
 		}
 		else {
@@ -518,7 +518,7 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 			return new ArrayList<>();
 		}
 		return Files.walk(customWorkDirRoot, 1)
-					.filter(path -> Files.isDirectory(path))
+					.filter(Files::isDirectory)
 					.filter(path -> !path.getFileName().toString().startsWith("."))
 					.collect(Collectors.toList());
 	}
@@ -528,7 +528,7 @@ public class LocalAppDeployerIntegrationTests extends AbstractAppDeployerIntegra
 		beforeDirs.add(customWorkDirRoot);
 		if (Files.exists(customWorkDirRoot)) {
 			beforeDirs = Files.walk(customWorkDirRoot, 1)
-					.filter(path -> Files.isDirectory(path))
+					.filter(Files::isDirectory)
 					.collect(Collectors.toList());
 		}
 		return beforeDirs;
