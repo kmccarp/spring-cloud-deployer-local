@@ -112,7 +112,7 @@ public class LocalAppDeployer extends AbstractLocalDeployerSupport implements Ap
 	private static synchronized int getLocalProcessPid(Process p) {
 		int pid = 0;
 		try {
-			if (p.getClass().getName().equals("java.lang.UNIXProcess")) {
+			if ("java.lang.UNIXProcess".equals(p.getClass().getName())) {
 				Field f = p.getClass().getDeclaredField("pid");
 				f.setAccessible(true);
 				pid = f.getInt(p);
@@ -137,7 +137,7 @@ public class LocalAppDeployer extends AbstractLocalDeployerSupport implements Ap
 			Path workDir = createWorkingDir(request.getDeploymentProperties(), deploymentId);
 
 			String countProperty = request.getDeploymentProperties().get(COUNT_PROPERTY_KEY);
-			int count = (StringUtils.hasText(countProperty)) ? Integer.parseInt(countProperty) : 1;
+			int count = StringUtils.hasText(countProperty) ? Integer.parseInt(countProperty) : 1;
 
 			for (int index = 0; index < count; index++) {
 				processes.add(deployApp(request, workDir, group, deploymentId, index, request.getDeploymentProperties()));
@@ -315,7 +315,7 @@ public class LocalAppDeployer extends AbstractLocalDeployerSupport implements Ap
 				.inheritIO();
 		builder.directory(workDir.toFile());
 
-		URL baseUrl = (StringUtils.hasText(localDeployerPropertiesToUse.getHostname())) ?
+		URL baseUrl = StringUtils.hasText(localDeployerPropertiesToUse.getHostname()) ?
 				new URL("http", localDeployerPropertiesToUse.getHostname(), port, "")
 				: getCommandBuilder(request).getBaseUrl(deploymentId, index, port);
 
@@ -357,7 +357,7 @@ public class LocalAppDeployer extends AbstractLocalDeployerSupport implements Ap
 		return String.format("%s-%s", deploymentId, appIndex);
 	}
 
-	private static class AppInstance implements Instance, AppInstanceStatus {
+	private static final class AppInstance implements Instance, AppInstanceStatus {
 
 		private final String deploymentId;
 

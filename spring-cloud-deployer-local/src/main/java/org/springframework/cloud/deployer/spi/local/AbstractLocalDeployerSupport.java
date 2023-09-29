@@ -143,7 +143,7 @@ public abstract class AbstractLocalDeployerSupport {
 	 *
 	 * @return the local deployer properties
 	 */
-	final protected LocalDeployerProperties getLocalDeployerProperties() {
+	protected final LocalDeployerProperties getLocalDeployerProperties() {
 		return localDeployerProperties;
 	}
 
@@ -186,7 +186,7 @@ public abstract class AbstractLocalDeployerSupport {
 	 * @return Returns a command builder compatible with the type of the resource set in the request.
 	 */
 	protected CommandBuilder getCommandBuilder(AppDeploymentRequest request) {
-		return (request.getResource() instanceof DockerResource) ? this.dockerCommandBuilder : this.javaCommandBuilder;
+		return request.getResource() instanceof DockerResource ? this.dockerCommandBuilder : this.javaCommandBuilder;
 	}
 
 	/**
