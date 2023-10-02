@@ -34,7 +34,7 @@ public class RandomPortRangeContextTests {
 	public void defaultProtRangeProperties() {
 		this.contextRunner
 				.withUserConfiguration(LocalDeployerAutoConfiguration.class)
-				.run((context) -> {
+				.run(context -> {
 					assertThat(context).hasSingleBean(LocalDeployerProperties.class);
 					assertThat(context).hasSingleBean(LocalDeployerAutoConfiguration.class);
 					assertThat(context).getBean(LocalDeployerProperties.class)
@@ -49,7 +49,7 @@ public class RandomPortRangeContextTests {
 		this.contextRunner
 				.withUserConfiguration(LocalDeployerAutoConfiguration.class)
 				.withPropertyValues("spring.cloud.deployer.local.portRange.low=20001", "spring.cloud.deployer.local.portRange.high=20003")
-				.run((context) -> {
+				.run(context -> {
 					assertThat(context).hasSingleBean(LocalDeployerProperties.class);
 					assertThat(context).hasSingleBean(LocalDeployerAutoConfiguration.class);
 					assertThat(context).getBean(LocalDeployerProperties.class)
