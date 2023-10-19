@@ -263,10 +263,7 @@ public class LocalDeployerProperties {
 			if (high != other.high) {
 				return false;
 			}
-			if (low != other.low) {
-				return false;
-			}
-			return true;
+			return low == other.low;
 		}
 	}
 
@@ -336,7 +333,7 @@ public class LocalDeployerProperties {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((network == null) ? 0 : network.hashCode());
+			result = prime * result + (network == null ? 0 : network.hashCode());
 			return result;
 		}
 
@@ -355,7 +352,9 @@ public class LocalDeployerProperties {
 			if (network == null) {
 				return other.network == null;
 			}
-			else return network.equals(other.network);
+			else {
+				return network.equals(other.network);
+			}
 		}
 	}
 
@@ -547,19 +546,19 @@ public class LocalDeployerProperties {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((debugPort == null) ? 0 : debugPort.hashCode());
-		result = prime * result + ((debugSuspend == null) ? 0 : debugSuspend.hashCode());
+		result = prime * result + (debugPort == null ? 0 : debugPort.hashCode());
+		result = prime * result + (debugSuspend == null ? 0 : debugSuspend.hashCode());
 		result = prime * result + (deleteFilesOnExit ? 1231 : 1237);
-		result = prime * result + ((docker == null) ? 0 : docker.hashCode());
+		result = prime * result + (docker == null ? 0 : docker.hashCode());
 		result = prime * result + Arrays.hashCode(envVarsToInherit);
 		result = prime * result + (inheritLogging ? 1231 : 1237);
-		result = prime * result + ((javaCmd == null) ? 0 : javaCmd.hashCode());
-		result = prime * result + ((javaOpts == null) ? 0 : javaOpts.hashCode());
+		result = prime * result + (javaCmd == null ? 0 : javaCmd.hashCode());
+		result = prime * result + (javaOpts == null ? 0 : javaOpts.hashCode());
 		result = prime * result + maximumConcurrentTasks;
-		result = prime * result + ((portRange == null) ? 0 : portRange.hashCode());
+		result = prime * result + (portRange == null ? 0 : portRange.hashCode());
 		result = prime * result + shutdownTimeout;
 		result = prime * result + (useSpringApplicationJson ? 1231 : 1237);
-		result = prime * result + ((workingDirectoriesRoot == null) ? 0 : workingDirectoriesRoot.hashCode());
+		result = prime * result + (workingDirectoriesRoot == null ? 0 : workingDirectoriesRoot.hashCode());
 		return result;
 	}
 

@@ -32,12 +32,12 @@ import org.springframework.util.StringUtils;
  *
  * @author Christian Tzolov
  */
-public class DebugAddress {
+public final class DebugAddress {
 	private static final Pattern HOSTNAME_PATTERN = Pattern.compile("^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$");
 	private static final Pattern IP_PATTERN = Pattern.compile("^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$");
 	private static final Pattern PORT_PATTERN = Pattern.compile("^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$");
 
-	public final static Logger logger = LoggerFactory.getLogger(DebugAddress.class);
+	public static final Logger logger = LoggerFactory.getLogger(DebugAddress.class);
 
 	private final String host;
 	private final String port;
@@ -47,8 +47,8 @@ public class DebugAddress {
 	private DebugAddress(String host, int port, String suspend) {
 		this.host = host;
 		this.port = "" + port;
-		this.suspend = (StringUtils.hasText(suspend)) ? suspend.trim() : "y";
-		this.address = (StringUtils.hasText(host)) ? String.format("%s:%s", host, port) : this.port;
+		this.suspend = StringUtils.hasText(suspend) ? suspend.trim() : "y";
+		this.address = StringUtils.hasText(host) ? String.format("%s:%s", host, port) : this.port;
 	}
 
 	public String getHost() {
